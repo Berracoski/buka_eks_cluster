@@ -1,4 +1,5 @@
 resource "kubernetes_service" "nginx" {
+  provider = kubernetes.eks
   metadata {
     name = "nginx-service"
   }
