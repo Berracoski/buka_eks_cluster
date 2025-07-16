@@ -92,37 +92,37 @@ This Terraform project provisions an **Amazon Elastic Kubernetes Service (EKS)**
 1. **Create the S3 bucket for backend state** (see Important Notice above).
 
 2. **Initialize the Terraform project**
-
+```bash
 terraform init
-
+```
 This will initialize providers and configure the remote backend.
 
 3. **Review the execution plan**
-
+```bash
 terraform plan
-
+```
 4. **Apply the Terraform configuration**
-
+```bash
 terraform apply
-
+```
 Confirm to proceed with resource creation.
 
 5. **Access your Kubernetes cluster**
 
 Update your `kubeconfig` to connect to the EKS cluster:
-
+```bash
 aws eks update-kubeconfig --region us-east-1 --name example-eks-cluster
-
+```
 6. **Verify Nginx Deployment**
 
 After a few minutes, check that Nginx pods are running:
-
+```bash
 kubectl get pods -l app=nginx
-
+```
 And get the external LoadBalancer IP/hostname:
-
+```bash
 kubectl get svc nginx-service
-
+```
 
 Open the EXTERNAL-IP or hostname in your browser to access Nginx.
 
@@ -141,9 +141,9 @@ Open the EXTERNAL-IP or hostname in your browser to access Nginx.
 ## Cleanup
 
 To delete all AWS resources and avoid ongoing costs:
-
+```bash
 terraform destroy
-
+```
 Confirm the prompt to proceed.
 
 ---
