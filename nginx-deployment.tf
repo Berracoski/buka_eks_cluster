@@ -1,4 +1,5 @@
 resource "kubernetes_deployment" "nginx" {
+  provider = kubernetes.eks
   metadata {
     name = "nginx-deployment"
     labels = {
