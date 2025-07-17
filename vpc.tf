@@ -47,3 +47,28 @@ resource "aws_route_table_association" "a" {
   subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public.id
 }
+
+
+# Elastic IP for NAT Gateway
+resource "aws_eip" "nat" {
+  count = 3
+  vpc   = true
+}
+
+# NAT Gateway in each public subnet
+resource "aws_nat_gateway" "nat" {
+  count         = 3
+  allocation_id = aws_eip.nat[count.index].id
+  subnet_id     = aws_subnet.public[count.index].id
+  tags = {
+    Name = "eks-nat-gateway-${count.index + 1}"
+  }
+}
+
+# Modify private route tables to route outbound traffic via NAT Gateway
+resource "aws_route" "private_nat_gateway_route" {
+  count                  = 3
+  route_table_id         = aws_route_table.private[count.index].id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.nat[count.index].id
+}
